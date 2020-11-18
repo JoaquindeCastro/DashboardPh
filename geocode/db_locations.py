@@ -16,7 +16,7 @@ def valid_latlng(lat,lng):
 		return True
 	return False
 
-with open('evac_centers_pampanga.csv') as csv_file:
+with open('evac_centers_1.csv') as csv_file:
 	csv_reader = csv.reader(csv_file,delimiter=',')
 	for row in csv_reader:
 		name = row[0]
@@ -27,15 +27,15 @@ with open('evac_centers_pampanga.csv') as csv_file:
 		lat = latlng[0]
 		lng = latlng[1]
 		if valid_latlng(lat,lng):
-			updatedAt = format_date('July 05, 2017')
-			createdAt = format_date('July 05, 2017')
+			updatedAt = format_date('November 12, 2020')
+			createdAt = format_date('November 12, 2020')
 			dbcode = ''
 			dbcode = str('db.CalamityResource.create({ "name": "' + str(name) + '"},' +
 			'{ $set: ' +
-			    '{ "address": ' + ','.join(address) + ', ' +
+			    '{ "address": ' + '"' + ','.join(address) + '"' ', ' +
 			    '"lat": ' + str(lat) + ', ' +
 			    '"lng": ' + str(lng) + ', ' +
-			    'createdAt: ISODate("' + str(createdAt).replace(' ', 'T') + ')' + ','
+			    'createdAt: ISODate("' + str(createdAt).replace(' ', 'T') + '")' + ','
 			    'updatedAt: ISODate("' + str(updatedAt).replace(' ', 'T') + '")}})')
 			print(dbcode,  file=open('dbcode.txt', "a"))
 
