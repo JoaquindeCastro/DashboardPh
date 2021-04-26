@@ -30,7 +30,7 @@ for index, row in df.iterrows():
     try:
         lat,lng = geocode(d['ADDRESS'])
     except:
-        break
+        continue
     dbcode = (
         f'db.establishments.update({{'\
         f'"type": "{d["Type"]}",'\
