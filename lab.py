@@ -18,7 +18,7 @@ def geocode(address):
 
 filename = 'labcom' + datetime.now().strftime('%d %b').replace(' ', '') + '.txt'
 
-df = pd.read_csv("labdata.csv", encoding = "ISO-8859-1")
+df = pd.read_csv("labdata.csv", encoding = "utf-8")
 
 df = df[['Type', 'LAB ID', 'LAB NAME', 'STATUS', 'CONTACT PERSON','PHONE or MOBILE', 'EMAIL','ADDRESS']]
 
@@ -47,7 +47,7 @@ for index, row in df.iterrows():
         f'}})'
         )
     if first:
-        print(dbcode,  file=open(filename, "w"), encoding="utf-8")
+        print(dbcode,  file=open(filename, "w",encoding='utf-8'))
         first = False
     else:
-        print(dbcode,  file=open(filename, "a"), encoding="utf-8")
+        print(dbcode,  file=open(filename, "a",encoding='utf-8'))
