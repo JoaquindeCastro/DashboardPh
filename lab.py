@@ -47,7 +47,7 @@ for index, row in df.iterrows():
         f'}})'
         )
     if first:
-        print(dbcode,  file=open(filename, "w"))
+        print(dbcode,  file=open(filename, "w"), encoding="utf-8")
         first = False
     else:
-        print(dbcode,  file=open(filename, "a"))
+        print(dbcode,  file=open(filename, "a"), encoding="utf-8")
