@@ -16,6 +16,11 @@ def geocode(address):
   lng = location['lng']
   return lat,lng
 
+def autocomplete(query):
+    params = {'input':query,'key':api_key}
+    response = requests.get('https://maps.googleapis.com/maps/api/place/autocomplete/output',params=params)
+    return response['predictions'][0]['description']
+
 filename = 'labcom' + datetime.now().strftime('%d %b').replace(' ', '') + '.txt'
 
 df = pd.read_csv("labdata.csv", encoding = "utf-8")
@@ -31,6 +36,7 @@ for index, row in df.iterrows():
         lat,lng = geocode(d['ADDRESS'])
     except:
         continue
+    full_address = autocomplete(d['ADDRESS'])
     dbcode = (
         f'db.establishments.update({{'\
         f'"type": "{d["Type"]}",'\
@@ -40,7 +46,7 @@ for index, row in df.iterrows():
         f'"contactPerson": "{d["CONTACT PERSON"]}",'\
         f'"phoneNumber": "{d["PHONE or MOBILE"]}",'\
         f'"email": "{d["EMAIL"]}",'\
-        f'"address": "{d["ADDRESS"]}",'\
+        f'"address": "{full_address}",'\
         f'"lat": {lat},'\
         f'"lng": {lng},'\
         f'"actions": [{{"category":"{d["STATUS"]}"}},{{"category":"{d["Type"]}"}}]'\
@@ -51,3 +57,4 @@ for index, row in df.iterrows():
         first = False
     else:
         print(dbcode,  file=open(filename, "a",encoding='utf-8'))
+
